@@ -14,8 +14,6 @@ export const addPageData = async (
 ) => {
   const i18nFrontmatter = (page.frontmatter as I18nPluginFrontmatter)["_i18n"];
 
-  if (i18nFrontmatter?.pathLocale) page.pathLocale = i18nFrontmatter.pathLocale;
-
   page.data.i18n ||= {
     pathLocale: page.pathLocale,
     baseLocaleLink: page.path.replace(page.pathLocale, options.baseLocalePath),
