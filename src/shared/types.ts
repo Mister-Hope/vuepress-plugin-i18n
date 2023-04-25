@@ -62,8 +62,8 @@ interface I18nPluginFrontmatter {
 
 interface I18nData {
   pathLocale?: string;
-  outdated?: boolean;
-  sourceLink?: string;
+  isOutdated?: boolean;
+  baseLocaleLink?: string;
   sourceUpdatedTime?: number;
   untranslated?: boolean;
   updatedTime?: number;

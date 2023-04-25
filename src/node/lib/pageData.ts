@@ -13,11 +13,12 @@ export const addPageData = async (
   options: I18nPluginInternalOptions
 ) => {
   const i18nFrontmatter = (page.frontmatter as I18nPluginFrontmatter)["_i18n"];
+
   if (i18nFrontmatter?.pathLocale) page.pathLocale = i18nFrontmatter.pathLocale;
 
   page.data.i18n ||= {
     pathLocale: page.pathLocale,
-    sourceLink: page.path.replace(page.pathLocale, options.baseLocalePath),
+    baseLocaleLink: page.path.replace(page.pathLocale, options.baseLocalePath),
     untranslated: i18nFrontmatter?.untranslated ?? false,
   };
 
