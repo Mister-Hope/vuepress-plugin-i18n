@@ -1,7 +1,7 @@
 import { getDirname, path } from "@vuepress/utils";
 import type { App, Plugin } from "@vuepress/core";
 
-import type { Page } from "../shared/types.js";
+import type { Page } from "../shared/index.js";
 import { type I18nPluginOptions, getOptions } from "./options.js";
 import { addComponent, getLocales, PLUGIN_NAME } from "./utils.js";
 import {

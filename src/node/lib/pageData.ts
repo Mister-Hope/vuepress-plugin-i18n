@@ -1,6 +1,6 @@
 import { checkGitRepo, getUpdatedTime } from "@vuepress/plugin-git";
 import { path } from "@vuepress/utils";
-import type { I18nPluginFrontmatter, Page } from "../../shared/types.js";
+import type { I18nPluginFrontmatter, Page } from "../../shared/index.js";
 import type { I18nPluginInternalOptions } from "../options.js";
 
 let inGitRepo: boolean;

@@ -5,8 +5,9 @@ import {
   renderPageContent,
 } from "@vuepress/core";
 import { Logger, deepAssign } from "vuepress-shared/node";
+
 import pluginLocaleData from "./locales/index.js";
-import type { I18nPluginLocaleData } from "../shared/types.js";
+import { type I18nPluginLocaleData } from "../shared/index.js";
 
 const PLUGIN_NAME = "vuepress-plugin-i18n";
 

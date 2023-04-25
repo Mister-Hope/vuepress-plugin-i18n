@@ -1,4 +1,4 @@
-import type { I18nPluginLocaleData } from "../../shared/types.js";
+import type { I18nPluginLocaleData } from "../../shared/index.js";
 
 const enLocaleData: I18nPluginLocaleData = {
   lang: "en-US",

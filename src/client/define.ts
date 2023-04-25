@@ -3,7 +3,7 @@ import {
   locales as _locales,
   //@ts-expect-error 2307
 } from "@temp/i18n-locales";
-import type { I18nPluginLocaleData } from "../shared/types.js";
+import type { I18nPluginLocaleData } from "../shared/index.js";
 
 // VuePress defines
 declare const I18N_PLUGIN_CONTAINER_CLASS: string[];

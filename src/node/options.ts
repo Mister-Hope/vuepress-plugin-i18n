@@ -1,5 +1,5 @@
 import type { App, Page } from "@vuepress/core";
-import type { I18nPluginLocaleData } from "../shared/types.js";
+import type { I18nPluginLocaleData } from "../shared/index.js";
 
 type DeepPartial<T> = T extends object
   ? {
