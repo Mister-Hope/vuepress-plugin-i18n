@@ -13,16 +13,19 @@ interface I18nPluginTipOptions {
    * @default true
    */
   enable: boolean;
+
   /**
    * Classes of the container div (type of container will always be add)
    * @default ["custom-container", "hint-container"]
    */
   containerClass: string[];
+
   /**
    * Classes of the container title
    * @default ["custom-container-title", "hint-container-title"]
    */
   titleClass: string[];
+
   /**
    * Name for tip component, which will be inserted at the top of the page
    * NOTE: You need to import your component globally by yourself
@@ -31,37 +34,44 @@ interface I18nPluginTipOptions {
   tipComponent: string;
 }
 
-interface I18nPluginInternalOptions {
+export interface I18nPluginInternalOptions {
   /**
    * Prefixes for source language
    * @default "/"
    */
   baseLocalePath: string;
+
   /**
    * Page filter
    * @param page VuePress page object
    * @returns Whether the page should be included
    */
   filter: (page: Page) => boolean;
+
   /**
-   * Link to translation guide(in default locale)
+   * Link to translation guide (in default locale)
    */
   translationGuide?: string;
+
   /**
    * Custom locales for i18n plugin
    */
   locales: Record<string, Partial<I18nPluginLocaleData>>;
+
   /**
    * Add tag `untranslated` or `outdated` to page
-   * need to load before [vuepress-plugin-blog2]{@link https://www.npmjs.com/package/vuepress-plugin-blog2}
+   * need to load before [@vuepress/plugin-blog]{@link https://ecosystem.vuejs.press/plugins/blog/blog/}
    * @default false
    */
   tag: boolean;
+
   /**
    * Tip container options
+   *
    * @see I18nPluginTipOptions
    */
   tip: I18nPluginTipOptions;
+
   /**
    * Calculate updatedTime when not exist
    * - `git`: read updated time from git
@@ -79,12 +89,12 @@ interface I18nPluginInternalOptions {
     | ((page: Page, app: App) => number | undefined | "git" | "file");
 }
 
-interface I18nPluginOptions
+export interface I18nPluginOptions
   extends Omit<DeepPartial<I18nPluginInternalOptions>, "tip"> {
   tip?: I18nPluginTipOptions | boolean;
 }
 
-const defaultOptions: I18nPluginInternalOptions = {
+export const DEFAULT_OPTIONS: I18nPluginInternalOptions = {
   filter: (page) => page.frontmatter["homepage"] !== true && !!page.filePath,
   locales: {},
   baseLocalePath: "/",
@@ -99,26 +109,20 @@ const defaultOptions: I18nPluginInternalOptions = {
     app.env.isBuild || app.env.isDebug ? "git" : undefined,
 };
 
-const getOptions: (
+export const getOptions: (
   app: App,
   options: I18nPluginOptions,
 ) => I18nPluginInternalOptions = (app, options) => ({
-  ...defaultOptions,
+  ...DEFAULT_OPTIONS,
   calcUpdatedTime: app.env.isBuild || app.env.isDebug,
   tip:
     typeof options.tip === "boolean"
       ? {
-          ...defaultOptions.tip,
+          ...DEFAULT_OPTIONS.tip,
           enable: options.tip,
         }
-      : (options.tip ?? defaultOptions.tip),
+      : (options.tip ?? DEFAULT_OPTIONS.tip),
   ...Object.fromEntries(
     Object.entries(options).filter(([key]) => key !== "tip"),
   ),
 });
-export {
-  defaultOptions,
-  getOptions,
-  type I18nPluginInternalOptions,
-  type I18nPluginOptions,
-};

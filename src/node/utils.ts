@@ -11,7 +11,11 @@ import type { I18nPluginLocaleData } from "../shared/types.js";
 
 export const PLUGIN_NAME = "vuepress-plugin-i18n";
 
-export const addComponent = (app: App, page: Page, name: string) => {
+export const insertComponentToPageTop = (
+  app: App,
+  page: Page,
+  componentName: string,
+) => {
   const { content, filePath, filePathRelative, frontmatter, path } = page;
   const fmRegExp = /^---$/gm;
   const headRegExp = /^[\r\n]+#\s.+?[\r\n]+/g;
@@ -21,9 +25,9 @@ export const addComponent = (app: App, page: Page, name: string) => {
   headRegExp.exec(content.slice(index));
   index += headRegExp.lastIndex;
 
-  if (!content.slice(index).startsWith(`<${name} />\n`)) {
+  if (!content.slice(index).startsWith(`<${componentName} />\n`)) {
     page.content =
-      content.slice(0, index) + `<${name} />\n` + content.slice(index);
+      content.slice(0, index) + `<${componentName} />\n` + content.slice(index);
     Object.assign(
       page,
       parsePageContent({

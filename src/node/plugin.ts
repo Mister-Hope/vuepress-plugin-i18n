@@ -8,7 +8,7 @@ import {
 import { watch } from "chokidar";
 import type { Page } from "../shared/types.js";
 import { type I18nPluginOptions, getOptions } from "./options.js";
-import { addComponent, getLocales, PLUGIN_NAME } from "./utils.js";
+import { insertComponentToPageTop, getLocales, PLUGIN_NAME } from "./utils.js";
 import {
   addPageData,
   fillUntranslatedPages,
@@ -36,7 +36,7 @@ export const i18nPlugin =
       extendsPage: async (page: Page, app: App) => {
         if (options.filter(page) || page.frontmatter["_i18n"]) {
           if (options.tip.enable)
-            addComponent(app, page, options.tip.tipComponent);
+            insertComponentToPageTop(app, page, options.tip.tipComponent);
           await addPageData(page, app, options);
           if (isInitialized) markOutdatedPage(page, app, options);
         }
