@@ -1,4 +1,4 @@
-import type { App } from "@vuepress/core";
+import type { App } from "vuepress/core";
 import type { Page } from "../../shared/types.js";
 import type { I18nPluginInternalOptions } from "../options.js";
 import { logger } from "../utils.js";

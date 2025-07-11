@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { isLinkAbsolute } from "@vuepress/helper/client";
+import { computed } from "vue";
+import { useI18nData } from "../composables/index.js";
+
 import type {
   I18nData,
   I18nPluginLocaleData,
   LinkRenderer,
-} from "../../shared/types";
-import { computed } from "vue";
-import { isAbsoluteUrl } from "vuepress-shared/client";
-import { useI18nData } from "../composables";
+} from "../../shared/index.js";
 
 type I18nPluginTipType = "untranslated" | "outdated";
 
 const linkRenderer: LinkRenderer = (text, url) =>
-  `<a href="${url}"${isAbsoluteUrl(url) ? ` target="_blank"` : ""}>${text}</a>`;
+  `<a href="${url}"${isLinkAbsolute(url) ? ` target="_blank"` : ""}>${text}</a>`;
 
 const getContent = (
   type: I18nPluginTipType,

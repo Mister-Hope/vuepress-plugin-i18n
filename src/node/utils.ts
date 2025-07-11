@@ -2,15 +2,16 @@ import {
   type App,
   type Page,
   type SiteData,
-  renderPageContent,
-} from "@vuepress/core";
-import { Logger, deepAssign } from "vuepress-shared/node";
+  // @ts-ignore
+  parsePageContent,
+} from "vuepress/core";
+import { deepAssign, Logger } from "@vuepress/helper";
 import pluginLocaleData from "./locales/index.js";
 import type { I18nPluginLocaleData } from "../shared/types.js";
 
-const PLUGIN_NAME = "vuepress-plugin-i18n";
+export const PLUGIN_NAME = "vuepress-plugin-i18n";
 
-const addComponent = (app: App, page: Page, name: string) => {
+export const addComponent = (app: App, page: Page, name: string) => {
   const { content, filePath, filePathRelative, frontmatter, path } = page;
   const fmRegExp = /^---$/gm;
   const headRegExp = /^[\r\n]+#\s.+?[\r\n]+/g;
@@ -25,7 +26,7 @@ const addComponent = (app: App, page: Page, name: string) => {
       content.slice(0, index) + `<${name} />\n` + content.slice(index);
     Object.assign(
       page,
-      renderPageContent({
+      parsePageContent({
         app,
         content: page.content,
         filePath,
@@ -34,18 +35,14 @@ const addComponent = (app: App, page: Page, name: string) => {
           path,
           frontmatter,
           content,
-          ...(filePath
-            ? {
-                filePath,
-              }
-            : {}),
+          ...(filePath ? { filePath } : {}),
         },
       }),
     );
   }
 };
 
-const getLocales = (
+export const getLocales = (
   siteData: SiteData,
   customLocales: Record<string, Partial<I18nPluginLocaleData>>,
 ) =>
@@ -62,10 +59,7 @@ const getLocales = (
     ]),
   ) as Record<string, I18nPluginLocaleData>;
 
-const getPageFromDataFilePath = (app: App, path: string) =>
-  app.pages.find((page) => page.dataFilePath === path);
-
-const insertAfterFrontmatter = (content: string, data: string) => {
+export const insertAfterFrontmatter = (content: string, data: string) => {
   const regexp = /^---$/gm;
   regexp.exec(content);
   regexp.exec(content);
@@ -75,13 +69,4 @@ const insertAfterFrontmatter = (content: string, data: string) => {
   return content.slice(0, index) + data + content.slice(index);
 };
 
-const logger = new Logger(PLUGIN_NAME);
-
-export {
-  PLUGIN_NAME,
-  addComponent,
-  getLocales,
-  getPageFromDataFilePath,
-  insertAfterFrontmatter,
-  logger,
-};
+export const logger = new Logger(PLUGIN_NAME);

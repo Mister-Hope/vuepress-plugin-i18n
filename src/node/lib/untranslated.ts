@@ -3,8 +3,8 @@ import {
   createPage,
   type Page,
   type PageFrontmatter,
-} from "@vuepress/core";
-import { colors } from "@vuepress/utils";
+} from "vuepress/core";
+import { colors } from "vuepress/utils";
 import type { I18nPluginFrontmatter } from "../../shared/types.js";
 import type { I18nPluginInternalOptions } from "../options.js";
 import { logger } from "../utils.js";

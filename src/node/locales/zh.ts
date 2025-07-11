@@ -1,4 +1,4 @@
-import type { I18nPluginLocaleData } from "../../shared/types.js";
+import type { I18nPluginLocaleData } from "../../shared/index.js";
 
 const zhLocaleData: I18nPluginLocaleData = {
   lang: "zh-CN",

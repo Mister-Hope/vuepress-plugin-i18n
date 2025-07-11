@@ -1,19 +1,14 @@
-import { getDirname, path } from "@vuepress/utils";
+import { getDirname, path } from "vuepress/utils";
 import {
-  preparePageData,
   type App,
   type Plugin,
-  preparePagesComponents,
-} from "@vuepress/core";
+  prepareRoutes,
+  preparePageChunk,
+} from "vuepress/core";
 import { watch } from "chokidar";
 import type { Page } from "../shared/types.js";
 import { type I18nPluginOptions, getOptions } from "./options.js";
-import {
-  addComponent,
-  getLocales,
-  getPageFromDataFilePath,
-  PLUGIN_NAME,
-} from "./utils.js";
+import { addComponent, getLocales, PLUGIN_NAME } from "./utils.js";
 import {
   addPageData,
   fillUntranslatedPages,
@@ -28,7 +23,7 @@ export const i18nPlugin =
   (_options: I18nPluginOptions = {}): Plugin =>
   (app: App) => {
     const options = getOptions(app, _options);
-    let isInited = false;
+    let isInitialized = false;
 
     return {
       name: PLUGIN_NAME,
@@ -43,11 +38,11 @@ export const i18nPlugin =
           if (options.tip.enable)
             addComponent(app, page, options.tip.tipComponent);
           await addPageData(page, app, options);
-          if (isInited) markOutdatedPage(page, app, options);
+          if (isInitialized) markOutdatedPage(page, app, options);
         }
       },
       onInitialized: async (app) => {
-        isInited = true;
+        isInitialized = true;
         await Promise.all(
           app.pages.map(async (page) => {
             if (options.filter(page)) {
@@ -65,12 +60,14 @@ export const i18nPlugin =
           ignoreInitial: true,
         });
         pageWatcher.on("change", (filePath) => {
-          const page: Page | undefined = getPageFromDataFilePath(app, filePath);
+          const page: Page | undefined = app.pages.find(
+            (page: Page) => page.chunkFilePath === filePath,
+          );
           if (page && page.data.i18n?.updatedTime) {
             app.pages.forEach((p: Page) => {
               if (p.data.i18n?.sourceLink === page.path && p.data.i18n)
                 p.data.i18n.sourceUpdatedTime = page.data.i18n!.updatedTime!;
-              void preparePageData(app, page);
+              void preparePageChunk(app, page);
             });
           }
         });
@@ -78,7 +75,8 @@ export const i18nPlugin =
         //  Remove filled page if source has been removed
         pageWatcher.on("unlink", (filePath) => {
           const { path, pathLocale } =
-            getPageFromDataFilePath(app, filePath) ?? {};
+            app.pages.find((page: Page) => page.chunkFilePath === filePath) ??
+            {};
           if (pathLocale === options.baseLocalePath && path) {
             const pageCount = app.pages.length;
             app.pages = app.pages.filter(
@@ -90,7 +88,7 @@ export const i18nPlugin =
                 ),
             );
             // Re-prepare only if some pages are removed
-            if (app.pages.length < pageCount) void preparePagesComponents(app);
+            if (app.pages.length < pageCount) prepareRoutes(app);
           }
         });
         watcher.push(pageWatcher);

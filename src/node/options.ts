@@ -1,5 +1,5 @@
-import type { App, Page } from "@vuepress/core";
-import type { I18nPluginLocaleData } from "../shared/types.js";
+import type { App, Page } from "vuepress/core";
+import type { I18nPluginLocaleData } from "../shared/index.js";
 
 type DeepPartial<T> = T extends object
   ? {
@@ -111,7 +111,7 @@ const getOptions: (
           ...defaultOptions.tip,
           enable: options.tip,
         }
-      : options.tip ?? defaultOptions.tip,
+      : (options.tip ?? defaultOptions.tip),
   ...Object.fromEntries(
     Object.entries(options).filter(([key]) => key !== "tip"),
   ),

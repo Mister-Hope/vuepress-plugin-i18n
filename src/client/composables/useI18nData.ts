@@ -1,4 +1,4 @@
-import { usePageData } from "@vuepress/client";
+import { usePageData } from "vuepress/client";
 import { computed, type ComputedRef } from "vue";
 import type { I18nData, I18nPluginPageData } from "../../shared/types.js";
 import {

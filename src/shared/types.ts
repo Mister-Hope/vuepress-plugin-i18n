@@ -1,4 +1,4 @@
-import type { Page as _Page, PageData as _PageData } from "@vuepress/core";
+import type { Page as _Page, PageData as _PageData } from "vuepress/core";
 import type { GitData } from "@vuepress/plugin-git";
 
 /**
@@ -50,7 +50,7 @@ interface I18nPluginLocaleData {
   };
 }
 
-interface I18nPluginFrontmatter {
+interface I18nPluginFrontmatter extends Record<string, unknown> {
   _i18n?: {
     filePathRelative?: string;
     pathLocale?: string;
@@ -69,7 +69,7 @@ interface I18nPageData {
   updatedTime?: number | undefined;
 }
 
-interface I18nPluginPageData {
+interface I18nPluginPageData extends Record<string, unknown> {
   i18n?: I18nPageData;
   /** maybe added by @vuepress/plugin-git */
   git?: GitData;

@@ -1,9 +1,10 @@
-import type { App } from "@vuepress/core";
-import { colors } from "@vuepress/utils";
+import { isLinkAbsolute } from "@vuepress/helper";
+import type { App } from "vuepress/core";
+import { colors } from "vuepress/utils";
+
 import type { I18nPluginLocaleData } from "../../shared/types.js";
 import type { I18nPluginInternalOptions } from "../options.js";
 import { logger } from "../utils.js";
-import { isAbsoluteUrl } from "vuepress-shared";
 
 const keyRegExp = /^(?!\d)[a-z0-9_]+/i;
 /**
@@ -38,8 +39,8 @@ const getCodeStr: (input: unknown) => string = (input) => {
   }
 };
 
-const gettranslationGuides = (app: App, translationGuide?: string) => {
-  if (!translationGuide || isAbsoluteUrl(translationGuide))
+const getTranslationGuides = (app: App, translationGuide?: string) => {
+  if (!translationGuide || isLinkAbsolute(translationGuide))
     return { "/": translationGuide };
   const links: Record<string, string> = { "/": translationGuide };
   app.pages.forEach((page) => {
@@ -55,9 +56,9 @@ const writeLocales = async (
   { translationGuide }: I18nPluginInternalOptions,
 ) => {
   await app.writeTemp(
-    "i18n-locales.js",
+    "i18n/locales.js",
     `export const translationGuides = ${getCodeStr(
-      gettranslationGuides(app, translationGuide),
+      getTranslationGuides(app, translationGuide),
     )};
     export const locales = ${getCodeStr(locales)};`,
   );

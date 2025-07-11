@@ -1,4 +1,4 @@
-import { defineClientConfig } from "@vuepress/client";
+import { defineClientConfig } from "vuepress/client";
 import I18nTip from "./components/I18nTip.vue";
 
 export default defineClientConfig({
